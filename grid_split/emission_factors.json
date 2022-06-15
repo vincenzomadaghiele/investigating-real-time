@@ -1,0 +1,8 @@
+{
+	"wind": 11,
+	"hydro": 15,
+	"nuclear": 9,
+	"thermal": 122,
+	"other": 600,
+	"solar": 44
+}

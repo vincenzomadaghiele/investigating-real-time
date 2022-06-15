@@ -1,0 +1,40 @@
+#N canvas 661 384 619 388 12;
+#X declare -lib zexy;
+#X obj 36 77 oscparse;
+#X obj 36 100 route list;
+#X obj 36 52 netreceive -u -b 5010;
+#X obj 35 125 route sensor;
+#X obj 35 199 s2l, f 4;
+#X obj 35 175 symbol \$1;
+#X obj 35 150 unpack s 0;
+#X obj 35 248 route 7 11 13 15 16 18;
+#X obj 35 224 pack 0 0, f 10;
+#X obj 35 287 vsl 15 64 10 5000 0 0 empty empty s1 0 -9 0 10 -261682
+-260097 -260097 6300 1;
+#X obj 60 287 vsl 15 64 0 1000 0 0 empty empty s2 0 -9 0 10 -261682
+-260097 -260097 0 1;
+#X obj 85 288 vsl 15 64 0 1000 0 0 empty empty s3 0 -9 0 10 -261682
+-260097 -260097 0 1;
+#X obj 110 288 vsl 15 64 0 1000 0 0 empty empty s4 0 -9 0 10 -261682
+-260097 -260097 0 1;
+#X obj 135 288 vsl 15 64 0 1000 0 0 empty empty s5 0 -9 0 10 -261682
+-260097 -260097 0 1;
+#X obj 160 288 vsl 15 64 0 1000 0 0 empty empty s5 0 -9 0 10 -261682
+-260097 -260097 0 1;
+#X text 43 21 RECEIVE SENSOR DATA;
+#X obj 237 51 declare -lib zexy;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 2 0 0 0;
+#X connect 3 0 6 0;
+#X connect 4 0 8 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 0;
+#X connect 6 1 8 1;
+#X connect 7 0 9 0;
+#X connect 7 1 10 0;
+#X connect 7 2 11 0;
+#X connect 7 3 12 0;
+#X connect 7 4 13 0;
+#X connect 7 5 14 0;
+#X connect 8 0 7 0;

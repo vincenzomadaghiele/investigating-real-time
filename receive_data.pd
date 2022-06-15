@@ -1,0 +1,104 @@
+#N canvas 144 0 1280 778 12;
+#X declare -lib zexy;
+#X obj 258 60 oscparse;
+#X obj 258 83 route list;
+#X obj 68 126 route sensor;
+#X obj 68 200 s2l, f 4;
+#X obj 68 176 symbol \$1;
+#X obj 68 151 unpack s 0;
+#X obj 68 249 route 7 11 13 15 16 18;
+#X obj 68 225 pack 0 0, f 10;
+#X obj 68 288 vsl 15 64 10 1000 0 0 empty empty s1 0 -9 0 10 #fce0c4
+#fc8000 #fc8000 0 1;
+#X obj 93 288 vsl 15 64 0 1000 0 0 empty empty s2 0 -9 0 10 #fce0c4
+#fc8000 #fc8000 0 1;
+#X obj 118 289 vsl 15 64 0 1000 0 0 empty empty s3 0 -9 0 10 #fce0c4
+#fc8000 #fc8000 0 1;
+#X obj 143 289 vsl 15 64 0 1000 0 0 empty empty s4 0 -9 0 10 #fce0c4
+#fc8000 #fc8000 0 1;
+#X obj 168 289 vsl 15 64 0 1000 0 0 empty empty s5 0 -9 0 10 #fce0c4
+#fc8000 #fc8000 0 1;
+#X obj 193 289 vsl 15 64 0 1000 0 0 empty empty s5 0 -9 0 10 #fce0c4
+#fc8000 #fc8000 0 1;
+#X obj 508 36 declare -lib zexy;
+#X obj 257 248 unpack 0 0 0 0 0 0;
+#X obj 257 173 route gridSplit;
+#X obj 257 223 s2l, f 4;
+#X obj 257 198 symbol \$1;
+#X obj 257 307 vsl 15 64 0 127 0 0 empty empty wind 0 -9 0 10 #dcdcdc
+#000000 #000000 0 1;
+#X obj 375 309 vsl 15 64 0 127 0 0 empty empty thermal 0 -9 0 10 #fcc4c4
+#fc0400 #fc0400 0 1;
+#X obj 290 307 vsl 15 64 0 127 0 0 empty empty hydro 0 -9 0 10 #c4fcfc
+#0400fc #0400fc 0 1;
+#X obj 327 307 vsl 15 64 0 127 0 0 empty empty nuclear 0 -9 0 10 #c4fcc4
+#0c4410 #0c4410 0 1;
+#X obj 422 310 vsl 15 64 0 127 0 0 empty empty other 0 -9 0 10 #e0c4fc
+#9c00fc #9c00fc 0 1;
+#X obj 460 310 vsl 15 64 0 127 0 0 empty empty solar 0 -9 0 10 #fcfcc4
+#fc8000 #fc8000 0 1;
+#X obj 513 120 route tot_cons;
+#X obj 513 169 s2l, f 4;
+#X obj 513 144 symbol \$1;
+#X floatatom 513 192 5 0 0 0 - - - 0;
+#X text 72 100 SENSOR INPUT;
+#X text 280 11 OSC CHANNEL;
+#X text 277 149 GRID SPLIT;
+#X text 506 96 TOTAL CONSUMPTION;
+#X obj 511 299 s2l, f 4;
+#X obj 511 274 symbol \$1;
+#X floatatom 511 322 5 0 0 0 - - - 0;
+#X obj 511 250 route emissions;
+#X text 511 226 TOTAL EMISSIONS;
+#X obj 656 168 s2l, f 4;
+#X obj 656 143 symbol \$1;
+#X floatatom 656 191 12 0 0 0 - - - 0;
+#X obj 654 298 s2l, f 4;
+#X obj 654 273 symbol \$1;
+#X floatatom 654 321 12 0 0 0 - - - 0;
+#X text 654 225 CUMULATIVE EMISSIONS;
+#X text 649 95 CUMULATIVE CONSUMPTION;
+#X obj 656 119 route cumulative_consumption;
+#X obj 654 249 route cumulative_emissions;
+#X obj 258 35 netreceive -u -b 5011;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 0 16 0;
+#X connect 1 0 25 0;
+#X connect 1 0 36 0;
+#X connect 1 0 47 0;
+#X connect 1 0 46 0;
+#X connect 2 0 5 0;
+#X connect 3 0 7 0;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 5 1 7 1;
+#X connect 6 0 8 0;
+#X connect 6 1 9 0;
+#X connect 6 2 10 0;
+#X connect 6 3 11 0;
+#X connect 6 4 12 0;
+#X connect 6 5 13 0;
+#X connect 7 0 6 0;
+#X connect 15 0 19 0;
+#X connect 15 1 21 0;
+#X connect 15 2 22 0;
+#X connect 15 3 20 0;
+#X connect 15 4 23 0;
+#X connect 15 5 24 0;
+#X connect 16 0 18 0;
+#X connect 17 0 15 0;
+#X connect 18 0 17 0;
+#X connect 25 0 27 0;
+#X connect 26 0 28 0;
+#X connect 27 0 26 0;
+#X connect 33 0 35 0;
+#X connect 34 0 33 0;
+#X connect 36 0 34 0;
+#X connect 38 0 40 0;
+#X connect 39 0 38 0;
+#X connect 41 0 43 0;
+#X connect 42 0 41 0;
+#X connect 46 0 39 0;
+#X connect 47 0 42 0;
+#X connect 48 0 0 0;

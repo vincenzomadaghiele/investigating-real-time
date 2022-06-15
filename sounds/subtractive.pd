@@ -1,0 +1,3044 @@
+#N canvas 521 50 608 403 12;
+#X declare -lib zexy;
+#N canvas 35 66 592 433 Hann-window 0;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-hann 512 float 0;
+#X coords 0 1 511 0 200 120 1;
+#X restore 293 249 graph;
+#X msg 171 263 0;
+#X obj 65 312 osc~;
+#X obj 65 264 samplerate~;
+#X obj 65 335 *~ -0.5;
+#X obj 65 358 +~ 0.5;
+#X obj 57 383 tabwrite~ \$0-hann;
+#X text 279 241 1;
+#X text 272 359 0;
+#X text 288 372 0;
+#X obj 65 288 / 512;
+#X obj 57 241 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 336 221 Hann window;
+#X text 113 310 period 512;
+#X text 90 215 recalculate Hann;
+#X text 125 230 window table;
+#X obj 57 146 loadbang;
+#X msg 79 179 \; pd dsp 1;
+#X text 40 27 The Hann window is now recomputed on 'loadbang' to make
+the file smaller (it doesn't have to be saved with the array.);
+#X text 474 375 511;
+#X connect 1 0 2 1;
+#X connect 2 0 4 0;
+#X connect 3 0 10 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 10 0 2 0;
+#X connect 11 0 3 0;
+#X connect 11 0 1 0;
+#X connect 11 0 6 0;
+#X connect 16 0 11 0;
+#X connect 16 0 17 0;
+#X restore 43 186 pd Hann-window;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-gain 256 float 3;
+#A 0 0.665 0 0 0 0 0 0.63 0 0 0 0 0 0.595 0 0 0 0 0 0.56 0 0 0 0 0
+0.525 0 0 0 0 0 0.49 0 0 0 0 0 0.455 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+;
+#X coords 0 1 256 -0.01 512 60 1;
+#X restore 26 57 graph;
+#X text 23 117 0;
+#X text 513 120 22K;
+#X text 228 37 GAIN;
+#N canvas 244 67 987 639 osc_receiver 0;
+#X obj 274 84 oscparse;
+#X obj 274 107 route list;
+#X obj 274 59 netreceive -u -b 5010;
+#X obj 94 152 route sensor;
+#X obj 94 226 s2l, f 4;
+#X obj 94 202 symbol \$1;
+#X obj 94 177 unpack s 0;
+#X obj 94 251 pack 0 0, f 10;
+#X obj 94 330 vsl 15 64 10 5000 1 0 empty empty s1 0 -9 0 10 -261682
+-260097 -260097 1000 1;
+#X obj 119 330 vsl 15 64 10 1000 1 0 empty empty s2 0 -9 0 10 -261682
+-260097 -260097 1700 1;
+#X obj 144 331 vsl 15 64 10 1000 1 0 empty empty s3 0 -9 0 10 -261682
+-260097 -260097 1500 1;
+#X obj 169 331 vsl 15 64 10 10000 1 0 empty empty s4 0 -9 0 10 -261682
+-260097 -260097 500 1;
+#X obj 194 331 vsl 15 64 10 1000 1 0 empty empty s5 0 -9 0 10 -261682
+-260097 -260097 700 1;
+#X obj 219 331 vsl 15 64 10 1000 1 0 empty empty s6 0 -9 0 10 -261682
+-260097 -260097 700 1;
+#X obj 273 272 unpack 0 0 0 0 0 0;
+#X obj 273 197 route gridSplit;
+#X obj 273 247 s2l, f 4;
+#X obj 273 222 symbol \$1;
+#X obj 273 330 vsl 15 64 0 127 0 0 empty empty wind 0 -9 0 10 -228856
+-1 -1 2100 1;
+#X obj 391 333 vsl 15 64 0 127 0 0 empty empty thermal 0 -9 0 10 -261234
+-258113 -258113 1400 1;
+#X obj 306 331 vsl 15 64 0 127 0 0 empty empty hydro 0 -9 0 10 -204800
+-4160 -4160 3400 1;
+#X obj 343 331 vsl 15 64 0 127 0 0 empty empty nuclear 0 -9 0 10 -204786
+-13381 -13381 1800 1;
+#X obj 438 334 vsl 15 64 0 127 0 0 empty empty other 0 -9 0 10 -232576
+-159808 -159808 900 1;
+#X obj 476 334 vsl 15 64 0 127 0 0 empty empty solar 0 -9 0 10 -262130
+-260097 -260097 600 1;
+#X obj 529 144 route tot_cons;
+#X obj 529 193 s2l, f 4;
+#X obj 529 168 symbol \$1;
+#X floatatom 529 216 8 0 0 0 - - -;
+#X text 98 126 SENSOR INPUT;
+#X text 296 35 OSC CHANNEL;
+#X text 293 173 GRID SPLIT;
+#X obj 527 323 s2l, f 4;
+#X obj 527 298 symbol \$1;
+#X floatatom 527 346 8 0 0 0 - - -;
+#X obj 527 274 route emissions;
+#X obj 672 192 s2l, f 4;
+#X obj 672 167 symbol \$1;
+#X floatatom 672 215 12 0 0 0 - - -;
+#X obj 670 322 s2l, f 4;
+#X obj 670 297 symbol \$1;
+#X floatatom 670 345 12 0 0 0 - - -;
+#X text 670 249 CUMULATIVE EMISSIONS;
+#X text 665 119 CUMULATIVE CONSUMPTION;
+#X obj 672 143 route cumulative_consumption;
+#X obj 670 273 route cumulative_emissions;
+#X floatatom 99 422 5 0 0 0 - - -;
+#X text 514 117 CURRENT CONSUMPTION;
+#X text 523 250 CURRENT EMISSIONS;
+#X obj 529 398 hsl 128 15 0 127 0 0 empty empty Current_consumption
+-2 -8 0 10 -228856 -1 -1 3700 1;
+#X obj 528 434 hsl 128 15 0 30000 0 0 empty empty Current_emissions
+-2 -8 0 10 -228856 -1 -1 10000 1;
+#X obj 672 396 hsl 128 15 0 1e+06 0 0 empty empty Cumulative_consumption
+-2 -8 0 10 -228856 -1 -1 10400 1;
+#X obj 673 437 hsl 128 15 0 1e+08 0 0 empty empty Cumulative_emissions
+-2 -8 0 10 -228856 -1 -1 4300 1;
+#X obj 99 448 s s1;
+#X floatatom 147 422 5 0 0 0 - - -;
+#X floatatom 193 421 5 0 0 0 - - -;
+#X floatatom 97 471 5 0 0 0 - - -;
+#X floatatom 146 470 5 0 0 0 - - -;
+#X floatatom 194 469 5 0 0 0 - - -;
+#X obj 147 444 s s2;
+#X obj 193 443 s s3;
+#X obj 97 494 s s4;
+#X obj 146 492 s s5;
+#X obj 194 492 s s6;
+#X obj 260 417 s wind;
+#X obj 311 418 s hydro;
+#X obj 306 443 s nuclear;
+#X obj 378 443 s thermal;
+#X obj 376 420 s other;
+#X obj 434 419 s solar;
+#X obj 526 460 s cons;
+#X obj 581 460 s emis;
+#X obj 94 275 route 7 11 13 15 22 18;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 1 0 15 0;
+#X connect 1 0 24 0;
+#X connect 1 0 34 0;
+#X connect 1 0 44 0;
+#X connect 1 0 43 0;
+#X connect 2 0 0 0;
+#X connect 3 0 6 0;
+#X connect 4 0 7 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 0;
+#X connect 6 1 7 1;
+#X connect 7 0 71 0;
+#X connect 8 0 45 0;
+#X connect 9 0 53 0;
+#X connect 10 0 54 0;
+#X connect 11 0 55 0;
+#X connect 12 0 56 0;
+#X connect 13 0 57 0;
+#X connect 14 0 18 0;
+#X connect 14 1 20 0;
+#X connect 14 2 21 0;
+#X connect 14 3 19 0;
+#X connect 14 4 22 0;
+#X connect 14 5 23 0;
+#X connect 15 0 17 0;
+#X connect 16 0 14 0;
+#X connect 17 0 16 0;
+#X connect 18 0 63 0;
+#X connect 19 0 66 0;
+#X connect 20 0 64 0;
+#X connect 21 0 65 0;
+#X connect 22 0 67 0;
+#X connect 23 0 68 0;
+#X connect 24 0 26 0;
+#X connect 25 0 27 0;
+#X connect 26 0 25 0;
+#X connect 27 0 48 0;
+#X connect 31 0 33 0;
+#X connect 32 0 31 0;
+#X connect 33 0 49 0;
+#X connect 34 0 32 0;
+#X connect 35 0 37 0;
+#X connect 36 0 35 0;
+#X connect 37 0 50 0;
+#X connect 38 0 40 0;
+#X connect 39 0 38 0;
+#X connect 40 0 51 0;
+#X connect 43 0 36 0;
+#X connect 44 0 39 0;
+#X connect 45 0 52 0;
+#X connect 48 0 69 0;
+#X connect 49 0 70 0;
+#X connect 53 0 58 0;
+#X connect 54 0 59 0;
+#X connect 55 0 60 0;
+#X connect 56 0 61 0;
+#X connect 57 0 62 0;
+#X connect 71 0 8 0;
+#X connect 71 1 9 0;
+#X connect 71 2 10 0;
+#X connect 71 3 11 0;
+#X connect 71 4 12 0;
+#X connect 71 5 13 0;
+#X restore 43 214 pd osc_receiver;
+#X obj 43 159 declare -lib zexy;
+#N canvas 0 22 704 482 check_timings 0;
+#X obj 54 115 realtime;
+#X obj 54 50 r s1;
+#X obj 54 73 change;
+#X obj 54 96 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 107 74 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 54 138 expr if($f1 > 1000 \, 1 \, 0);
+#X obj 54 161 sel 1;
+#X msg 54 186 5000;
+#X obj 54 209 s s1;
+#X obj 107 93 metro 15;
+#X obj 107 51 loadbang;
+#X obj 249 115 realtime;
+#X obj 249 73 change;
+#X obj 249 96 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 302 74 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 249 138 expr if($f1 > 1000 \, 1 \, 0);
+#X obj 249 161 sel 1;
+#X obj 302 93 metro 15;
+#X msg 249 183 5000;
+#X obj 249 206 s s2;
+#X obj 302 51 loadbang;
+#X obj 448 111 realtime;
+#X obj 448 69 change;
+#X obj 448 92 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 501 70 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 448 134 expr if($f1 > 1000 \, 1 \, 0);
+#X obj 448 157 sel 1;
+#X obj 501 89 metro 15;
+#X msg 448 180 5000;
+#X obj 448 203 s s3;
+#X obj 501 47 loadbang;
+#X obj 49 319 realtime;
+#X obj 49 277 change;
+#X obj 49 300 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 102 278 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 49 342 expr if($f1 > 1000 \, 1 \, 0);
+#X obj 49 365 sel 1;
+#X obj 102 297 metro 15;
+#X msg 49 388 5000;
+#X obj 49 411 s s4;
+#X obj 102 255 loadbang;
+#X obj 246 318 realtime;
+#X obj 246 276 change;
+#X obj 246 299 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 299 277 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 246 341 expr if($f1 > 1000 \, 1 \, 0);
+#X obj 246 364 sel 1;
+#X obj 299 296 metro 15;
+#X msg 246 388 5000;
+#X obj 246 411 s s5;
+#X obj 299 254 loadbang;
+#X obj 444 317 realtime;
+#X obj 444 275 change;
+#X obj 444 298 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 497 276 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 444 340 expr if($f1 > 1000 \, 1 \, 0);
+#X obj 444 363 sel 1;
+#X obj 497 295 metro 15;
+#X msg 444 386 5000;
+#X obj 444 409 s s6;
+#X obj 497 253 loadbang;
+#X obj 249 50 r s2;
+#X obj 448 46 r s3;
+#X obj 444 252 r s6;
+#X obj 246 253 r s5;
+#X obj 49 254 r s4;
+#X obj 209 14 inlet;
+#X connect 0 0 5 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 4 0 9 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 9 0 0 1;
+#X connect 10 0 4 0;
+#X connect 11 0 15 0;
+#X connect 12 0 13 0;
+#X connect 13 0 11 0;
+#X connect 14 0 17 0;
+#X connect 15 0 16 0;
+#X connect 16 0 18 0;
+#X connect 17 0 11 1;
+#X connect 18 0 19 0;
+#X connect 20 0 14 0;
+#X connect 21 0 25 0;
+#X connect 22 0 23 0;
+#X connect 23 0 21 0;
+#X connect 24 0 27 0;
+#X connect 25 0 26 0;
+#X connect 26 0 28 0;
+#X connect 27 0 21 1;
+#X connect 28 0 29 0;
+#X connect 30 0 24 0;
+#X connect 31 0 35 0;
+#X connect 32 0 33 0;
+#X connect 33 0 31 0;
+#X connect 34 0 37 0;
+#X connect 35 0 36 0;
+#X connect 36 0 38 0;
+#X connect 37 0 31 1;
+#X connect 38 0 39 0;
+#X connect 40 0 34 0;
+#X connect 41 0 45 0;
+#X connect 42 0 43 0;
+#X connect 43 0 41 0;
+#X connect 44 0 47 0;
+#X connect 45 0 46 0;
+#X connect 46 0 48 0;
+#X connect 47 0 41 1;
+#X connect 48 0 49 0;
+#X connect 50 0 44 0;
+#X connect 51 0 55 0;
+#X connect 52 0 53 0;
+#X connect 53 0 51 0;
+#X connect 54 0 57 0;
+#X connect 55 0 56 0;
+#X connect 56 0 58 0;
+#X connect 57 0 51 1;
+#X connect 58 0 59 0;
+#X connect 60 0 54 0;
+#X connect 61 0 12 0;
+#X connect 62 0 22 0;
+#X connect 63 0 52 0;
+#X connect 64 0 42 0;
+#X connect 65 0 32 0;
+#X connect 66 0 4 0;
+#X connect 66 0 34 0;
+#X connect 66 0 14 0;
+#X connect 66 0 44 0;
+#X connect 66 0 24 0;
+#X connect 66 0 54 0;
+#X restore 44 263 pd check_timings;
+#X obj 44 242 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#N canvas 367 247 642 455 cons_emis_mappings 0;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 348 254 pd fft-analysis;
+#X obj 348 231 noise~;
+#X obj 469 304 clip~ -0.5 0.5;
+#X obj 348 346 dac~;
+#X obj 348 318 *~;
+#X obj 369 296 hsl 32 15 0 1 0 0 empty empty vol -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 108 45 hsl 128 15 0 1 0 0 empty empty current_consumption -2
+-8 0 10 -228856 -1 -1 8600 1;
+#X floatatom 105 65 5 0 0 0 - - -;
+#X obj 105 87 * 10;
+#X obj 105 110 int;
+#X obj 145 186 vuzi;
+#X obj 106 214 f;
+#X obj 139 214 + 1;
+#X floatatom 93 240 5 0 0 0 - - -;
+#X floatatom 93 289 5 0 0 0 - - -;
+#X obj 41 381 tabwrite \$0-gain;
+#X msg 43 312 0.7;
+#X obj 43 337 f;
+#X floatatom 71 358 5 0 0 0 - - -;
+#X obj 43 265 == 0;
+#X obj 43 288 sel 1;
+#X obj 139 238 mod 20;
+#X msg 106 186 0;
+#X msg 190 185 const 0;
+#X obj 190 213 s \$0-gain;
+#X msg 105 156 \$1;
+#X floatatom 146 88 5 0 0 0 - - -;
+#X text 189 88 number of bands;
+#X floatatom 134 265 5 0 0 0 - - -;
+#X text 178 265 bands distance;
+#X obj 469 392 dac~;
+#X obj 469 364 *~;
+#X obj 490 343 hsl 32 15 0 1 0 0 empty empty vol -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 471 254 hsl 128 15 1 300 1 0 empty empty current_emissions -2
+-8 0 10 -228856 -1 -1 12170 1;
+#X obj 469 281 *~;
+#X obj 468 150 r emis;
+#X obj 50 19 r cons;
+#X obj 468 173 / 30000;
+#X obj 468 196 * 299;
+#X obj 468 219 + 1;
+#X obj 50 43 / 127;
+#X obj 75 337 - 0.035;
+#X obj 93 265 * 6;
+#X text 251 185 reset gain;
+#X obj 105 132 t f b b;
+#X obj 42 359 f;
+#X obj 93 311 t b b f, f 8;
+#X connect 0 0 4 0;
+#X connect 0 0 34 0;
+#X connect 1 0 0 0;
+#X connect 2 0 31 0;
+#X connect 4 0 3 0;
+#X connect 4 0 3 1;
+#X connect 5 0 4 1;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 44 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 11 0 13 0;
+#X connect 12 0 21 0;
+#X connect 13 0 19 0;
+#X connect 13 0 42 0;
+#X connect 14 0 46 0;
+#X connect 16 0 17 0;
+#X connect 17 0 41 0;
+#X connect 17 0 45 1;
+#X connect 18 0 15 0;
+#X connect 19 0 20 0;
+#X connect 20 0 16 0;
+#X connect 21 0 11 1;
+#X connect 22 0 11 0;
+#X connect 23 0 24 0;
+#X connect 25 0 10 0;
+#X connect 26 0 8 1;
+#X connect 28 0 42 1;
+#X connect 31 0 30 0;
+#X connect 31 0 30 1;
+#X connect 32 0 31 1;
+#X connect 33 0 34 1;
+#X connect 34 0 2 0;
+#X connect 35 0 37 0;
+#X connect 36 0 40 0;
+#X connect 37 0 38 0;
+#X connect 38 0 39 0;
+#X connect 39 0 33 0;
+#X connect 40 0 6 0;
+#X connect 41 0 17 1;
+#X connect 42 0 14 0;
+#X connect 44 0 25 0;
+#X connect 44 1 22 0;
+#X connect 44 2 23 0;
+#X connect 45 0 18 0;
+#X connect 46 0 45 0;
+#X connect 46 1 17 0;
+#X connect 46 2 15 1;
+#X restore 43 289 pd cons_emis_mappings;
+#N canvas 0 22 840 553 cons_emis_sonif 0;
+#X obj 169 98 + 1;
+#X obj 169 121 clip 0 1;
+#X floatatom 169 144 5 0 0 0 - - -;
+#X obj 169 52 r s1;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 56 143 pd fft-analysis;
+#X obj 56 120 noise~;
+#X obj 56 218 dac~;
+#X obj 56 169 *~;
+#X obj 352 97 + 1;
+#X obj 352 120 clip 0 1;
+#X floatatom 352 143 5 0 0 0 - - -;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 239 142 pd fft-analysis;
+#X obj 239 119 noise~;
+#X obj 239 217 dac~;
+#X obj 239 167 *~;
+#X obj 352 51 r s2;
+#X obj 540 100 + 1;
+#X obj 540 123 clip 0 1;
+#X floatatom 540 146 5 0 0 0 - - -;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 427 145 pd fft-analysis;
+#X obj 427 122 noise~;
+#X obj 427 220 dac~;
+#X obj 427 170 *~;
+#X obj 540 54 r s3;
+#X obj 222 306 + 1;
+#X obj 222 329 clip 0 1;
+#X floatatom 222 352 5 0 0 0 - - -;
+#X obj 135 455 dac~;
+#X obj 135 406 *~;
+#X obj 469 307 + 1;
+#X obj 469 330 clip 0 1;
+#X floatatom 469 353 5 0 0 0 - - -;
+#X obj 380 455 dac~;
+#X obj 380 404 *~;
+#X obj 716 306 + 1;
+#X obj 716 329 clip 0 1;
+#X floatatom 716 352 5 0 0 0 - - -;
+#X obj 629 451 dac~;
+#X obj 628 401 *~;
+#X obj 222 260 r s4;
+#X obj 469 261 r s5;
+#X obj 716 260 r s6;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 541 330 pd fft-analysis;
+#X obj 541 307 noise~;
+#X obj 628 376 clip~ -0.5 0.5;
+#X obj 628 353 *~;
+#X obj 658 284 r emis;
+#X obj 658 307 / 30000;
+#X obj 658 330 * 299;
+#X obj 658 353 + 1;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 292 330 pd fft-analysis;
+#X obj 292 307 noise~;
+#X obj 378 379 clip~ -0.5 0.5;
+#X obj 378 356 *~;
+#X obj 410 285 r emis;
+#X obj 410 308 / 30000;
+#X obj 410 331 * 299;
+#X obj 410 354 + 1;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 46 331 pd fft-analysis;
+#X obj 46 308 noise~;
+#X obj 130 380 clip~ -0.5 0.5;
+#X obj 130 357 *~;
+#X obj 162 284 r emis;
+#X obj 162 307 / 30000;
+#X obj 162 330 * 299;
+#X obj 162 355 + 1;
+#X obj 169 75 / -1000;
+#X obj 352 74 / -1000;
+#X obj 540 77 / -1000;
+#X obj 469 284 / -1000;
+#X obj 716 283 / -1000;
+#X obj 222 283 / -1000;
+#X obj 56 192 *~;
+#X obj 239 190 *~;
+#X obj 427 193 *~;
+#X obj 135 429 *~;
+#X obj 380 429 *~;
+#X obj 628 425 *~;
+#X obj 281 43 inlet;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 7 1;
+#X connect 3 0 66 0;
+#X connect 4 0 7 0;
+#X connect 5 0 4 0;
+#X connect 7 0 72 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 14 1;
+#X connect 11 0 14 0;
+#X connect 12 0 11 0;
+#X connect 14 0 73 0;
+#X connect 15 0 67 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 18 0 22 1;
+#X connect 19 0 22 0;
+#X connect 20 0 19 0;
+#X connect 22 0 74 0;
+#X connect 23 0 68 0;
+#X connect 24 0 25 0;
+#X connect 25 0 26 0;
+#X connect 26 0 28 1;
+#X connect 28 0 75 0;
+#X connect 29 0 30 0;
+#X connect 30 0 31 0;
+#X connect 31 0 33 1;
+#X connect 33 0 76 0;
+#X connect 34 0 35 0;
+#X connect 35 0 36 0;
+#X connect 36 0 38 1;
+#X connect 38 0 77 0;
+#X connect 39 0 71 0;
+#X connect 40 0 69 0;
+#X connect 41 0 70 0;
+#X connect 42 0 45 0;
+#X connect 43 0 42 0;
+#X connect 44 0 38 0;
+#X connect 45 0 44 0;
+#X connect 46 0 47 0;
+#X connect 47 0 48 0;
+#X connect 48 0 49 0;
+#X connect 49 0 45 1;
+#X connect 50 0 53 0;
+#X connect 51 0 50 0;
+#X connect 52 0 33 0;
+#X connect 53 0 52 0;
+#X connect 54 0 55 0;
+#X connect 55 0 56 0;
+#X connect 56 0 57 0;
+#X connect 57 0 53 1;
+#X connect 58 0 61 0;
+#X connect 59 0 58 0;
+#X connect 60 0 28 0;
+#X connect 61 0 60 0;
+#X connect 62 0 63 0;
+#X connect 63 0 64 0;
+#X connect 64 0 65 0;
+#X connect 65 0 61 1;
+#X connect 66 0 0 0;
+#X connect 67 0 8 0;
+#X connect 68 0 16 0;
+#X connect 69 0 29 0;
+#X connect 70 0 34 0;
+#X connect 71 0 24 0;
+#X connect 72 0 6 0;
+#X connect 72 0 6 1;
+#X connect 73 0 13 0;
+#X connect 73 0 13 1;
+#X connect 74 0 21 0;
+#X connect 74 0 21 1;
+#X connect 75 0 27 0;
+#X connect 75 0 27 1;
+#X connect 76 0 32 0;
+#X connect 76 0 32 1;
+#X connect 77 0 37 0;
+#X connect 77 0 37 1;
+#X connect 78 0 72 1;
+#X connect 78 0 73 1;
+#X connect 78 0 74 1;
+#X connect 78 0 75 1;
+#X connect 78 0 76 1;
+#X connect 78 0 77 1;
+#X restore 447 208 pd cons_emis_sonif;
+#X obj 221 240 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#N canvas 0 22 840 487 cons_sonif 0;
+#X obj 169 98 + 1;
+#X obj 169 121 clip 0 1;
+#X floatatom 169 144 5 0 0 0 - - -;
+#X obj 169 52 r s1;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 56 143 pd fft-analysis;
+#X obj 56 120 noise~;
+#X obj 56 215 dac~;
+#X obj 56 169 *~;
+#X obj 352 97 + 1;
+#X obj 352 120 clip 0 1;
+#X floatatom 352 143 5 0 0 0 - - -;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 239 142 pd fft-analysis;
+#X obj 239 119 noise~;
+#X obj 239 214 dac~;
+#X obj 239 167 *~;
+#X obj 352 51 r s2;
+#X obj 540 100 + 1;
+#X obj 540 123 clip 0 1;
+#X floatatom 540 146 5 0 0 0 - - -;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 427 145 pd fft-analysis;
+#X obj 427 122 noise~;
+#X obj 427 217 dac~;
+#X obj 427 170 *~;
+#X obj 540 54 r s3;
+#X obj 205 242 r s4;
+#X obj 388 243 r s5;
+#X obj 577 246 r s6;
+#X obj 169 75 / -1000;
+#X obj 352 74 / -1000;
+#X obj 540 77 / -1000;
+#X obj 205 288 + 1;
+#X obj 205 311 clip 0 1;
+#X floatatom 205 334 5 0 0 0 - - -;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 92 333 pd fft-analysis;
+#X obj 92 310 noise~;
+#X obj 92 412 dac~;
+#X obj 92 359 *~;
+#X obj 388 287 + 1;
+#X obj 388 310 clip 0 1;
+#X floatatom 388 333 5 0 0 0 - - -;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 275 332 pd fft-analysis;
+#X obj 275 309 noise~;
+#X obj 275 411 dac~;
+#X obj 275 357 *~;
+#X obj 576 290 + 1;
+#X obj 576 313 clip 0 1;
+#X floatatom 576 336 5 0 0 0 - - -;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 463 335 pd fft-analysis;
+#X obj 463 312 noise~;
+#X obj 463 414 dac~;
+#X obj 463 360 *~;
+#X obj 205 265 / -1000;
+#X obj 388 264 / -1000;
+#X obj 576 267 / -1000;
+#X obj 93 385 *~;
+#X obj 276 383 *~;
+#X obj 464 386 *~;
+#X obj 280 29 inlet;
+#X obj 56 192 *~;
+#X obj 239 190 *~;
+#X obj 427 193 *~;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 7 1;
+#X connect 3 0 27 0;
+#X connect 4 0 7 0;
+#X connect 5 0 4 0;
+#X connect 7 0 58 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 14 1;
+#X connect 11 0 14 0;
+#X connect 12 0 11 0;
+#X connect 14 0 59 0;
+#X connect 15 0 28 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 18 0 22 1;
+#X connect 19 0 22 0;
+#X connect 20 0 19 0;
+#X connect 22 0 60 0;
+#X connect 23 0 29 0;
+#X connect 24 0 51 0;
+#X connect 25 0 52 0;
+#X connect 26 0 53 0;
+#X connect 27 0 0 0;
+#X connect 28 0 8 0;
+#X connect 29 0 16 0;
+#X connect 30 0 31 0;
+#X connect 31 0 32 0;
+#X connect 32 0 36 1;
+#X connect 33 0 36 0;
+#X connect 34 0 33 0;
+#X connect 36 0 54 0;
+#X connect 37 0 38 0;
+#X connect 38 0 39 0;
+#X connect 39 0 43 1;
+#X connect 40 0 43 0;
+#X connect 41 0 40 0;
+#X connect 43 0 55 0;
+#X connect 44 0 45 0;
+#X connect 45 0 46 0;
+#X connect 46 0 50 1;
+#X connect 47 0 50 0;
+#X connect 48 0 47 0;
+#X connect 50 0 56 0;
+#X connect 51 0 30 0;
+#X connect 52 0 37 0;
+#X connect 53 0 44 0;
+#X connect 54 0 35 0;
+#X connect 54 0 35 1;
+#X connect 55 0 42 0;
+#X connect 55 0 42 1;
+#X connect 56 0 49 0;
+#X connect 56 0 49 1;
+#X connect 57 0 54 1;
+#X connect 57 0 55 1;
+#X connect 57 0 56 1;
+#X connect 57 0 58 1;
+#X connect 57 0 59 1;
+#X connect 57 0 60 1;
+#X connect 58 0 6 0;
+#X connect 58 0 6 1;
+#X connect 59 0 13 0;
+#X connect 59 0 13 1;
+#X connect 60 0 21 0;
+#X connect 60 0 21 1;
+#X restore 221 260 pd cons_sonif;
+#X obj 447 188 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 222 191 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 244 162 loadbang;
+#N canvas 0 0 1280 778 cons_emis_noiseAM 0;
+#X obj 141 82 + 1;
+#X obj 141 105 clip 0 1;
+#X floatatom 141 128 5 0 0 0 - - -;
+#X obj 141 36 r s1;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 28 127 pd fft-analysis;
+#X obj 28 104 noise~;
+#X obj 28 202 dac~;
+#X obj 28 153 *~;
+#X obj 416 79 + 1;
+#X obj 416 102 clip 0 1;
+#X floatatom 416 125 5 0 0 0 - - -;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 303 124 pd fft-analysis;
+#X obj 303 101 noise~;
+#X obj 303 199 dac~;
+#X obj 303 149 *~;
+#X obj 416 33 r s2;
+#X obj 628 78 + 1;
+#X obj 628 101 clip 0 1;
+#X floatatom 628 124 5 0 0 0 - - -;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 515 123 pd fft-analysis;
+#X obj 515 100 noise~;
+#X obj 515 198 dac~;
+#X obj 515 148 *~;
+#X obj 628 32 r s3;
+#X obj 214 396 + 1;
+#X obj 214 419 clip 0 1;
+#X floatatom 214 442 5 0 0 0 - - -;
+#X obj 143 567 dac~;
+#X obj 143 491 *~;
+#X obj 486 397 + 1;
+#X obj 486 420 clip 0 1;
+#X floatatom 486 443 5 0 0 0 - - -;
+#X obj 421 561 dac~;
+#X obj 421 483 *~;
+#X obj 752 393 + 1;
+#X obj 752 416 clip 0 1;
+#X floatatom 752 439 5 0 0 0 - - -;
+#X obj 678 560 dac~;
+#X obj 677 483 *~;
+#X obj 214 350 r s4;
+#X obj 486 351 r s5;
+#X obj 752 347 r s6;
+#X obj 28 176 *~;
+#X obj 303 172 *~;
+#X obj 515 171 *~;
+#X obj 143 514 *~;
+#X obj 421 508 *~;
+#X obj 677 507 *~;
+#X obj 308 37 inlet;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 18 331 pd fft-analysis;
+#X obj 18 308 noise~;
+#X obj 28 382 noise~;
+#X obj 28 402 lop~;
+#X floatatom 79 383 5 0 0 0 - - -;
+#X obj 134 421 *~;
+#X obj 165 420 *~;
+#X obj 171 352 - 1;
+#X floatatom 171 401 5 0 0 0 - - -;
+#X obj 171 378 * -1;
+#X floatatom 130 401 5 0 0 0 - - -;
+#X obj 144 446 +~;
+#X obj 136 332 hsl 64 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 3743 1;
+#X obj 45 463 *~;
+#X obj 28 425 *~;
+#X floatatom 68 427 5 0 0 0 - - -;
+#X obj 68 406 * 3;
+#X obj 79 359 * 5000;
+#X obj 133 164 r emis;
+#X obj 133 187 / 30000;
+#X obj 133 210 * 299;
+#X obj 133 234 + 1;
+#X obj 133 258 / 300;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 294 339 pd fft-analysis;
+#X obj 294 314 noise~;
+#X obj 304 390 noise~;
+#X obj 304 410 lop~;
+#X floatatom 355 391 5 0 0 0 - - -;
+#X obj 410 429 *~;
+#X obj 441 428 *~;
+#X obj 447 360 - 1;
+#X floatatom 447 409 5 0 0 0 - - -;
+#X obj 447 386 * -1;
+#X floatatom 406 409 5 0 0 0 - - -;
+#X obj 420 454 +~;
+#X obj 412 340 hsl 64 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 3743 1;
+#X obj 321 471 *~;
+#X obj 304 433 *~;
+#X floatatom 344 435 5 0 0 0 - - -;
+#X obj 344 414 * 3;
+#X obj 355 367 * 5000;
+#X obj 409 176 r emis;
+#X obj 409 199 / 30000;
+#X obj 409 222 * 299;
+#X obj 409 245 + 1;
+#X obj 409 269 / 300;
+#N canvas 265 48 643 640 fft-analysis 0;
+#X obj 15 164 *~;
+#X obj 14 99 inlet~;
+#X obj 15 218 rfft~;
+#X obj 36 140 tabreceive~ \$0-hann;
+#X obj 14 353 *~;
+#X obj 56 353 *~;
+#X obj 15 8 block~ 512 4;
+#X text 85 88 The inlet~ now re-uses 3/4 of the previous block \, along
+with the 128 new samples.;
+#X text 221 141 window function as before.;
+#X obj 76 196 tabreceive~ \$0-gain;
+#X obj 77 225 *~;
+#X obj 16 506 *~;
+#X obj 37 481 tabreceive~ \$0-hann;
+#X obj 77 283 /~ 768;
+#X text 98 301 divide by 3N/2 (factor of N because rfft and rifft aren't
+normalized \, and 3/2 is the gain of overlap-4 reconstruction when
+Hann window function is applied twice.);
+#X text 120 216 Just to show we're doing something \, we multiply each
+channel by a gain controlled by an array in the main window. The control
+is quartic-scaled for easy editing.;
+#X obj 78 251 *~;
+#X text 92 357 Multiply the (complex-valued) spectrum amplitudes by
+the (real-valued) gain-and-normalization-factor;
+#X obj 15 399 rifft~;
+#X text 89 396 Real-valued inverse Fourier transform. This uses only
+the first N/@ points of its inputs \, supplying the rest by symmetry
+(so it's OK that rfft~ only puts out those N/2 points.) There's only
+one outlet because the output is real-valued.;
+#X obj 16 566 outlet~;
+#X text 88 499 Multiply by the Hann window function again \, necessary
+because the operation we performed might result in a signal that doesn't
+go smoothly to zero at both ends.;
+#X text 89 566 This repackages the output into 64-sample chunks for
+the parent window. Since we're operating with an overlap \, the outlet~
+object performs an overlapped sum of the blocks computed in this window.
+;
+#X text 129 8 block~ object specifies vector size of 512 and overlap
+four. This window now computes blocks of 512 samples at intervals of
+128 samples computed on the parent patch.;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 3 0 0 1;
+#X connect 4 0 18 0;
+#X connect 5 0 18 1;
+#X connect 9 0 10 0;
+#X connect 9 0 10 1;
+#X connect 10 0 16 0;
+#X connect 10 0 16 1;
+#X connect 11 0 20 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 1;
+#X connect 13 0 5 1;
+#X connect 16 0 13 0;
+#X connect 18 0 11 0;
+#X restore 551 345 pd fft-analysis;
+#X obj 551 320 noise~;
+#X obj 561 396 noise~;
+#X obj 561 416 lop~;
+#X floatatom 612 397 5 0 0 0 - - -;
+#X obj 667 435 *~;
+#X obj 698 434 *~;
+#X obj 704 366 - 1;
+#X floatatom 704 415 5 0 0 0 - - -;
+#X obj 704 392 * -1;
+#X floatatom 663 415 5 0 0 0 - - -;
+#X obj 677 460 +~;
+#X obj 669 346 hsl 64 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 3743 1;
+#X obj 578 477 *~;
+#X obj 561 439 *~;
+#X floatatom 601 441 5 0 0 0 - - -;
+#X obj 601 420 * 3;
+#X obj 612 373 * 5000;
+#X obj 666 182 r emis;
+#X obj 666 205 / 30000;
+#X obj 666 228 * 299;
+#X obj 666 251 + 1;
+#X obj 666 276 / 300;
+#X obj 133 281 * 0.5;
+#X obj 133 304 + 0.2;
+#X obj 409 293 * 0.5;
+#X obj 409 316 + 0.2;
+#X obj 666 299 * 0.5;
+#X obj 666 322 + 0.2;
+#X obj 752 370 / -5000;
+#X obj 628 55 / -5000;
+#X obj 141 59 / -5000;
+#X obj 416 56 / -5000;
+#X obj 214 373 / -5000;
+#X obj 486 374 / -5000;
+#X obj 144 541 *~ 0.8;
+#X obj 422 534 *~ 0.8;
+#X obj 678 533 *~ 0.8;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 7 1;
+#X connect 3 0 126 0;
+#X connect 4 0 7 0;
+#X connect 5 0 4 0;
+#X connect 7 0 42 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 14 1;
+#X connect 11 0 14 0;
+#X connect 12 0 11 0;
+#X connect 14 0 43 0;
+#X connect 15 0 127 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 18 0 22 1;
+#X connect 19 0 22 0;
+#X connect 20 0 19 0;
+#X connect 22 0 44 0;
+#X connect 23 0 125 0;
+#X connect 24 0 25 0;
+#X connect 25 0 26 0;
+#X connect 26 0 28 1;
+#X connect 28 0 45 0;
+#X connect 29 0 30 0;
+#X connect 30 0 31 0;
+#X connect 31 0 33 1;
+#X connect 33 0 46 0;
+#X connect 34 0 35 0;
+#X connect 35 0 36 0;
+#X connect 36 0 38 1;
+#X connect 38 0 47 0;
+#X connect 39 0 128 0;
+#X connect 40 0 129 0;
+#X connect 41 0 124 0;
+#X connect 42 0 6 0;
+#X connect 42 0 6 1;
+#X connect 43 0 13 0;
+#X connect 43 0 13 1;
+#X connect 44 0 21 0;
+#X connect 44 0 21 1;
+#X connect 45 0 130 0;
+#X connect 46 0 131 0;
+#X connect 47 0 132 0;
+#X connect 48 0 42 1;
+#X connect 48 0 43 1;
+#X connect 48 0 44 1;
+#X connect 48 0 45 1;
+#X connect 48 0 46 1;
+#X connect 48 0 47 1;
+#X connect 49 0 55 0;
+#X connect 49 0 62 1;
+#X connect 50 0 49 0;
+#X connect 51 0 52 0;
+#X connect 52 0 63 0;
+#X connect 53 0 52 1;
+#X connect 54 0 60 0;
+#X connect 55 0 60 1;
+#X connect 56 0 58 0;
+#X connect 57 0 55 1;
+#X connect 58 0 57 0;
+#X connect 59 0 54 1;
+#X connect 60 0 28 0;
+#X connect 61 0 56 0;
+#X connect 61 0 59 0;
+#X connect 61 0 65 0;
+#X connect 61 0 66 0;
+#X connect 62 0 54 0;
+#X connect 63 0 62 0;
+#X connect 64 0 63 1;
+#X connect 65 0 64 0;
+#X connect 66 0 53 0;
+#X connect 67 0 68 0;
+#X connect 68 0 69 0;
+#X connect 69 0 70 0;
+#X connect 70 0 71 0;
+#X connect 71 0 118 0;
+#X connect 72 0 78 0;
+#X connect 72 0 85 1;
+#X connect 73 0 72 0;
+#X connect 74 0 75 0;
+#X connect 75 0 86 0;
+#X connect 76 0 75 1;
+#X connect 77 0 83 0;
+#X connect 78 0 83 1;
+#X connect 79 0 81 0;
+#X connect 80 0 78 1;
+#X connect 81 0 80 0;
+#X connect 82 0 77 1;
+#X connect 83 0 33 0;
+#X connect 84 0 79 0;
+#X connect 84 0 82 0;
+#X connect 84 0 88 0;
+#X connect 84 0 89 0;
+#X connect 85 0 77 0;
+#X connect 86 0 85 0;
+#X connect 87 0 86 1;
+#X connect 88 0 87 0;
+#X connect 89 0 76 0;
+#X connect 90 0 91 0;
+#X connect 91 0 92 0;
+#X connect 92 0 93 0;
+#X connect 93 0 94 0;
+#X connect 94 0 120 0;
+#X connect 95 0 101 0;
+#X connect 95 0 108 1;
+#X connect 96 0 95 0;
+#X connect 97 0 98 0;
+#X connect 98 0 109 0;
+#X connect 99 0 98 1;
+#X connect 100 0 106 0;
+#X connect 101 0 106 1;
+#X connect 102 0 104 0;
+#X connect 103 0 101 1;
+#X connect 104 0 103 0;
+#X connect 105 0 100 1;
+#X connect 106 0 38 0;
+#X connect 107 0 102 0;
+#X connect 107 0 105 0;
+#X connect 107 0 111 0;
+#X connect 107 0 112 0;
+#X connect 108 0 100 0;
+#X connect 109 0 108 0;
+#X connect 110 0 109 1;
+#X connect 111 0 110 0;
+#X connect 112 0 99 0;
+#X connect 113 0 114 0;
+#X connect 114 0 115 0;
+#X connect 115 0 116 0;
+#X connect 116 0 117 0;
+#X connect 117 0 122 0;
+#X connect 118 0 119 0;
+#X connect 119 0 61 0;
+#X connect 120 0 121 0;
+#X connect 121 0 84 0;
+#X connect 122 0 123 0;
+#X connect 123 0 107 0;
+#X connect 124 0 34 0;
+#X connect 125 0 16 0;
+#X connect 126 0 0 0;
+#X connect 127 0 8 0;
+#X connect 128 0 24 0;
+#X connect 129 0 29 0;
+#X connect 130 0 27 0;
+#X connect 130 0 27 1;
+#X connect 131 0 32 0;
+#X connect 131 0 32 1;
+#X connect 132 0 37 0;
+#X connect 132 0 37 1;
+#X restore 293 210 pd cons_emis_noiseAM;
+#X obj 293 189 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#N canvas 0 0 1062 623 reverse_bells 0;
+#X obj 622 32 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 622 52 openpanel;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array audioData 427678 float 2;
+#X coords 0 1 427678 -1 200 140 1;
+#X restore 816 28 graph;
+#X msg 622 76 read -resize \$1 audioData;
+#X obj 621 99 soundfiler;
+#X floatatom 621 122 8 0 0 0 - - -;
+#X obj 621 146 s end;
+#X msg 672 145 range 0 \$1;
+#X obj 819 191 hsl 200 15 0 427678 0 0 empty empty empty -2 -8 0 10
+-204786 -1 -1 0 1;
+#X obj 820 238 hsl 200 15 0 427678 0 0 empty empty empty -2 -8 0 10
+-261234 -1 -1 0 1;
+#X obj 816 211 s start;
+#X obj 817 258 s end;
+#X obj 625 321 loadbang;
+#N canvas 737 338 274 245 make-grain-env 0;
+#X obj 16 42 t b b;
+#X obj 16 106 f;
+#X obj 44 106 + 1;
+#X msg 54 63 0;
+#X obj 16 85 until;
+#X obj 16 127 t f f;
+#X obj 16 20 inlet;
+#X obj 16 188 tabwrite grain-env;
+#X msg 16 63 2048;
+#X obj 16 148 expr ($f1-1024)/1024;
+#X obj 16 168 expr 0.5+(cos($f1 * 3.141)/2);
+#X connect 0 0 8 0;
+#X connect 0 1 3 0;
+#X connect 1 0 2 0;
+#X connect 1 0 5 0;
+#X connect 2 0 1 1;
+#X connect 3 0 1 1;
+#X connect 4 0 1 0;
+#X connect 5 0 9 0;
+#X connect 5 1 7 1;
+#X connect 6 0 0 0;
+#X connect 8 0 4 0;
+#X connect 9 0 10 0;
+#X connect 10 0 7 0;
+#X restore 625 342 pd make-grain-env;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array grain-env 2048 float 0;
+#X coords 0 1 2047 -1 100 100 1;
+#X restore 625 210 graph;
+#X obj 296 531 hsl 32 15 0 1 0 0 empty empty vol -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 37 144 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 70 142 r wind;
+#X obj 277 98 r hydro;
+#X obj 463 96 r nuclear;
+#X obj 474 343 r thermal;
+#X obj 95 345 r other;
+#X obj 285 346 r solar;
+#X obj 70 165 / 127;
+#X obj 277 121 / 127;
+#X obj 463 119 / 127;
+#X obj 474 366 / 127;
+#X obj 285 369 / 127;
+#X obj 95 368 / 127;
+#X obj 37 29 r s1;
+#X floatatom 37 52 5 0 0 0 - - -;
+#X obj 37 98 change;
+#X obj 37 121 sel 1;
+#X floatatom 223 52 5 0 0 0 - - -;
+#X obj 223 98 change;
+#X obj 223 121 sel 1;
+#X floatatom 408 51 5 0 0 0 - - -;
+#X obj 408 97 change;
+#X obj 408 120 sel 1;
+#X obj 223 144 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 408 142 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 223 29 r s2;
+#X obj 408 28 r s3;
+#X floatatom 41 298 5 0 0 0 - - -;
+#X obj 41 344 change;
+#X obj 41 367 sel 1;
+#X obj 41 389 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 41 275 r s4;
+#X floatatom 230 298 5 0 0 0 - - -;
+#X obj 230 344 change;
+#X obj 230 367 sel 1;
+#X obj 230 389 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 421 296 5 0 0 0 - - -;
+#X obj 421 342 change;
+#X obj 421 365 sel 1;
+#X obj 421 387 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 230 275 r s5;
+#X obj 421 273 r s6;
+#X obj 37 74 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 223 74 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 408 73 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 421 318 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 230 320 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 41 320 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 37 165 f;
+#X obj 223 164 f;
+#X obj 408 163 f;
+#X obj 41 409 f;
+#X obj 230 409 f;
+#X obj 421 407 f;
+#N canvas 0 22 402 376 reverse 0;
+#X obj 51 110 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 51 135 f;
+#X obj 51 160 pack f f f;
+#X msg 51 185 \$1 \, \$2 \$3;
+#X obj 51 210 vline~;
+#X obj 51 233 tabread~ audioData;
+#X obj 129 66 r start;
+#X obj 129 89 expr abs($f2 - $f1) / 44.1;
+#X obj 273 65 r end;
+#X obj 84 134 r end;
+#X floatatom 129 113 8 0 0 0 - - -;
+#X obj 130 134 / 1;
+#X floatatom 161 134 5 0.5 2 0 - - -;
+#X obj 195 232 tabread4~ grain-env;
+#X obj 195 207 vline~;
+#X msg 195 184 0 \, 2048 \$1;
+#X obj 115 270 *~;
+#X obj 195 161 f;
+#X obj 51 59 inlet;
+#X obj 51 82 t b f;
+#X obj 115 293 outlet~;
+#X connect 0 0 1 0;
+#X connect 0 0 17 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 16 0;
+#X connect 6 0 1 1;
+#X connect 6 0 7 0;
+#X connect 7 0 10 0;
+#X connect 8 0 7 1;
+#X connect 9 0 2 1;
+#X connect 10 0 11 0;
+#X connect 11 0 2 2;
+#X connect 11 0 17 1;
+#X connect 12 0 11 1;
+#X connect 13 0 16 1;
+#X connect 14 0 13 0;
+#X connect 15 0 14 0;
+#X connect 16 0 20 0;
+#X connect 17 0 15 0;
+#X connect 18 0 19 0;
+#X connect 19 0 0 0;
+#X connect 19 1 12 0;
+#X restore 41 481 pd reverse;
+#X obj 41 434 * 1.5;
+#X obj 41 457 + 0.5;
+#X obj 232 530 *~ 0.25;
+#X obj 232 553 *~;
+#X obj 265 553 inlet;
+#X obj 232 576 dac~;
+#N canvas 0 22 402 376 reverse 0;
+#X obj 51 110 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 51 135 f;
+#X obj 51 160 pack f f f;
+#X msg 51 185 \$1 \, \$2 \$3;
+#X obj 51 210 vline~;
+#X obj 51 233 tabread~ audioData;
+#X obj 129 66 r start;
+#X obj 129 89 expr abs($f2 - $f1) / 44.1;
+#X obj 273 65 r end;
+#X obj 84 134 r end;
+#X floatatom 129 113 8 0 0 0 - - -;
+#X obj 130 134 / 1;
+#X floatatom 161 134 5 0.5 2 0 - - -;
+#X obj 195 232 tabread4~ grain-env;
+#X obj 195 207 vline~;
+#X msg 195 184 0 \, 2048 \$1;
+#X obj 115 270 *~;
+#X obj 195 161 f;
+#X obj 51 59 inlet;
+#X obj 51 82 t b f;
+#X obj 115 293 outlet~;
+#X connect 0 0 1 0;
+#X connect 0 0 17 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 16 0;
+#X connect 6 0 1 1;
+#X connect 6 0 7 0;
+#X connect 7 0 10 0;
+#X connect 8 0 7 1;
+#X connect 9 0 2 1;
+#X connect 10 0 11 0;
+#X connect 11 0 2 2;
+#X connect 11 0 17 1;
+#X connect 12 0 11 1;
+#X connect 13 0 16 1;
+#X connect 14 0 13 0;
+#X connect 15 0 14 0;
+#X connect 16 0 20 0;
+#X connect 17 0 15 0;
+#X connect 18 0 19 0;
+#X connect 19 0 0 0;
+#X connect 19 1 12 0;
+#X restore 230 482 pd reverse;
+#X obj 230 435 * 1.5;
+#X obj 230 458 + 0.5;
+#N canvas 0 22 402 376 reverse 0;
+#X obj 51 110 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 51 135 f;
+#X obj 51 160 pack f f f;
+#X msg 51 185 \$1 \, \$2 \$3;
+#X obj 51 210 vline~;
+#X obj 51 233 tabread~ audioData;
+#X obj 129 66 r start;
+#X obj 129 89 expr abs($f2 - $f1) / 44.1;
+#X obj 273 65 r end;
+#X obj 84 134 r end;
+#X floatatom 129 113 8 0 0 0 - - -;
+#X obj 130 134 / 1;
+#X floatatom 161 134 5 0.5 2 0 - - -;
+#X obj 195 232 tabread4~ grain-env;
+#X obj 195 207 vline~;
+#X msg 195 184 0 \, 2048 \$1;
+#X obj 115 270 *~;
+#X obj 195 161 f;
+#X obj 51 59 inlet;
+#X obj 51 82 t b f;
+#X obj 115 293 outlet~;
+#X connect 0 0 1 0;
+#X connect 0 0 17 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 16 0;
+#X connect 6 0 1 1;
+#X connect 6 0 7 0;
+#X connect 7 0 10 0;
+#X connect 8 0 7 1;
+#X connect 9 0 2 1;
+#X connect 10 0 11 0;
+#X connect 11 0 2 2;
+#X connect 11 0 17 1;
+#X connect 12 0 11 1;
+#X connect 13 0 16 1;
+#X connect 14 0 13 0;
+#X connect 15 0 14 0;
+#X connect 16 0 20 0;
+#X connect 17 0 15 0;
+#X connect 18 0 19 0;
+#X connect 19 0 0 0;
+#X connect 19 1 12 0;
+#X restore 421 480 pd reverse;
+#X obj 421 433 * 1.5;
+#X obj 421 456 + 0.5;
+#N canvas 0 22 402 376 reverse 0;
+#X obj 51 110 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 51 135 f;
+#X obj 51 160 pack f f f;
+#X msg 51 185 \$1 \, \$2 \$3;
+#X obj 51 210 vline~;
+#X obj 51 233 tabread~ audioData;
+#X obj 129 66 r start;
+#X obj 129 89 expr abs($f2 - $f1) / 44.1;
+#X obj 273 65 r end;
+#X obj 84 134 r end;
+#X floatatom 129 113 8 0 0 0 - - -;
+#X obj 130 134 / 1;
+#X floatatom 161 134 5 0.5 2 0 - - -;
+#X obj 195 232 tabread4~ grain-env;
+#X obj 195 207 vline~;
+#X msg 195 184 0 \, 2048 \$1;
+#X obj 115 270 *~;
+#X obj 195 161 f;
+#X obj 51 59 inlet;
+#X obj 51 82 t b f;
+#X obj 115 293 outlet~;
+#X connect 0 0 1 0;
+#X connect 0 0 17 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 16 0;
+#X connect 6 0 1 1;
+#X connect 6 0 7 0;
+#X connect 7 0 10 0;
+#X connect 8 0 7 1;
+#X connect 9 0 2 1;
+#X connect 10 0 11 0;
+#X connect 11 0 2 2;
+#X connect 11 0 17 1;
+#X connect 12 0 11 1;
+#X connect 13 0 16 1;
+#X connect 14 0 13 0;
+#X connect 15 0 14 0;
+#X connect 16 0 20 0;
+#X connect 17 0 15 0;
+#X connect 18 0 19 0;
+#X connect 19 0 0 0;
+#X connect 19 1 12 0;
+#X restore 37 236 pd reverse;
+#X obj 37 189 * 1.5;
+#X obj 37 212 + 0.5;
+#N canvas 0 22 402 376 reverse 0;
+#X obj 51 110 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 51 135 f;
+#X obj 51 160 pack f f f;
+#X msg 51 185 \$1 \, \$2 \$3;
+#X obj 51 210 vline~;
+#X obj 51 233 tabread~ audioData;
+#X obj 129 66 r start;
+#X obj 129 89 expr abs($f2 - $f1) / 44.1;
+#X obj 273 65 r end;
+#X obj 84 134 r end;
+#X floatatom 129 113 8 0 0 0 - - -;
+#X obj 130 134 / 1;
+#X floatatom 161 134 5 0.5 2 0 - - -;
+#X obj 195 232 tabread4~ grain-env;
+#X obj 195 207 vline~;
+#X msg 195 184 0 \, 2048 \$1;
+#X obj 115 270 *~;
+#X obj 195 161 f;
+#X obj 51 59 inlet;
+#X obj 51 82 t b f;
+#X obj 115 293 outlet~;
+#X connect 0 0 1 0;
+#X connect 0 0 17 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 16 0;
+#X connect 6 0 1 1;
+#X connect 6 0 7 0;
+#X connect 7 0 10 0;
+#X connect 8 0 7 1;
+#X connect 9 0 2 1;
+#X connect 10 0 11 0;
+#X connect 11 0 2 2;
+#X connect 11 0 17 1;
+#X connect 12 0 11 1;
+#X connect 13 0 16 1;
+#X connect 14 0 13 0;
+#X connect 15 0 14 0;
+#X connect 16 0 20 0;
+#X connect 17 0 15 0;
+#X connect 18 0 19 0;
+#X connect 19 0 0 0;
+#X connect 19 1 12 0;
+#X restore 223 236 pd reverse;
+#X obj 223 189 * 1.5;
+#X obj 223 212 + 0.5;
+#N canvas 0 22 402 376 reverse 0;
+#X obj 51 110 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 51 135 f;
+#X obj 51 160 pack f f f;
+#X msg 51 185 \$1 \, \$2 \$3;
+#X obj 51 210 vline~;
+#X obj 51 233 tabread~ audioData;
+#X obj 129 66 r start;
+#X obj 129 89 expr abs($f2 - $f1) / 44.1;
+#X obj 273 65 r end;
+#X obj 84 134 r end;
+#X floatatom 129 113 8 0 0 0 - - -;
+#X obj 130 134 / 1;
+#X floatatom 161 134 5 0.5 2 0 - - -;
+#X obj 195 232 tabread4~ grain-env;
+#X obj 195 207 vline~;
+#X msg 195 184 0 \, 2048 \$1;
+#X obj 115 270 *~;
+#X obj 195 161 f;
+#X obj 51 59 inlet;
+#X obj 51 82 t b f;
+#X obj 115 293 outlet~;
+#X connect 0 0 1 0;
+#X connect 0 0 17 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 16 0;
+#X connect 6 0 1 1;
+#X connect 6 0 7 0;
+#X connect 7 0 10 0;
+#X connect 8 0 7 1;
+#X connect 9 0 2 1;
+#X connect 10 0 11 0;
+#X connect 11 0 2 2;
+#X connect 11 0 17 1;
+#X connect 12 0 11 1;
+#X connect 13 0 16 1;
+#X connect 14 0 13 0;
+#X connect 15 0 14 0;
+#X connect 16 0 20 0;
+#X connect 17 0 15 0;
+#X connect 18 0 19 0;
+#X connect 19 0 0 0;
+#X connect 19 1 12 0;
+#X restore 408 234 pd reverse;
+#X obj 408 187 * 1.5;
+#X obj 408 210 + 0.5;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 5 0 7 0;
+#X connect 7 0 8 0;
+#X connect 7 0 9 0;
+#X connect 8 0 10 0;
+#X connect 9 0 11 0;
+#X connect 12 0 13 0;
+#X connect 15 0 73 1;
+#X connect 16 0 64 0;
+#X connect 17 0 23 0;
+#X connect 18 0 24 0;
+#X connect 19 0 25 0;
+#X connect 20 0 26 0;
+#X connect 21 0 28 0;
+#X connect 22 0 27 0;
+#X connect 23 0 64 1;
+#X connect 24 0 65 1;
+#X connect 25 0 66 1;
+#X connect 26 0 69 1;
+#X connect 27 0 68 1;
+#X connect 28 0 67 1;
+#X connect 29 0 30 0;
+#X connect 30 0 58 0;
+#X connect 31 0 32 0;
+#X connect 32 0 16 0;
+#X connect 33 0 59 0;
+#X connect 34 0 35 0;
+#X connect 35 0 39 0;
+#X connect 36 0 60 0;
+#X connect 37 0 38 0;
+#X connect 38 0 40 0;
+#X connect 39 0 65 0;
+#X connect 40 0 66 0;
+#X connect 41 0 33 0;
+#X connect 42 0 36 0;
+#X connect 43 0 63 0;
+#X connect 44 0 45 0;
+#X connect 45 0 46 0;
+#X connect 46 0 67 0;
+#X connect 47 0 43 0;
+#X connect 48 0 62 0;
+#X connect 49 0 50 0;
+#X connect 50 0 51 0;
+#X connect 51 0 68 0;
+#X connect 52 0 61 0;
+#X connect 53 0 54 0;
+#X connect 54 0 55 0;
+#X connect 55 0 69 0;
+#X connect 56 0 48 0;
+#X connect 57 0 52 0;
+#X connect 58 0 31 0;
+#X connect 59 0 34 0;
+#X connect 60 0 37 0;
+#X connect 61 0 53 0;
+#X connect 62 0 49 0;
+#X connect 63 0 44 0;
+#X connect 64 0 84 0;
+#X connect 65 0 87 0;
+#X connect 66 0 90 0;
+#X connect 67 0 71 0;
+#X connect 68 0 78 0;
+#X connect 69 0 81 0;
+#X connect 70 0 73 0;
+#X connect 71 0 72 0;
+#X connect 72 0 70 0;
+#X connect 73 0 74 0;
+#X connect 74 0 76 0;
+#X connect 74 0 76 1;
+#X connect 75 0 74 1;
+#X connect 77 0 73 0;
+#X connect 78 0 79 0;
+#X connect 79 0 77 0;
+#X connect 80 0 73 0;
+#X connect 81 0 82 0;
+#X connect 82 0 80 0;
+#X connect 83 0 73 0;
+#X connect 84 0 85 0;
+#X connect 85 0 83 0;
+#X connect 86 0 73 0;
+#X connect 87 0 88 0;
+#X connect 88 0 86 0;
+#X connect 89 0 73 0;
+#X connect 90 0 91 0;
+#X connect 91 0 89 0;
+#X restore 326 260 pd reverse_bells;
+#N canvas 0 0 900 778 bells 0;
+#N canvas 0 22 372 408 risset 0;
+#X obj 42 322 catch~ sum;
+#X obj 33 188 s frequency;
+#X obj 147 188 s duration;
+#X floatatom 147 138 0 0 0 0 - - -;
+#X obj 147 163 * 100;
+#X obj 33 163 mtof;
+#X floatatom 33 138 0 0 0 0 - - -;
+#X text 185 128 duration in tenths;
+#X text 187 144 of a second;
+#X text 71 137 pitch;
+#X obj 36 251 bng 25 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 69 253 <-- click to play a note;
+#X obj 36 282 s trigger;
+#X obj 42 345 outlet~;
+#X obj 38 224 inlet;
+#X obj 49 62 inlet;
+#X obj 50 86 unpack;
+#X connect 0 0 13 0;
+#X connect 3 0 4 0;
+#X connect 4 0 2 0;
+#X connect 5 0 1 0;
+#X connect 6 0 5 0;
+#X connect 10 0 12 0;
+#X connect 14 0 10 0;
+#X connect 15 0 16 0;
+#X connect 16 0 6 0;
+#X connect 16 1 3 0;
+#X restore 212 538 pd risset;
+#X obj 30 146 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 31 212 pack 0 0;
+#X obj 30 166 t b b;
+#X obj 84 99 r wind;
+#X obj 84 145 * 200;
+#X floatatom 84 190 5 0 0 0 - - -;
+#X obj 84 168 + 10;
+#X obj 217 213 pack 0 0;
+#X obj 270 146 * 200;
+#X floatatom 270 191 5 0 0 0 - - -;
+#X obj 270 169 + 10;
+#X obj 270 100 r hydro;
+#X obj 403 211 pack 0 0;
+#X obj 456 144 * 200;
+#X floatatom 456 189 5 0 0 0 - - -;
+#X obj 456 167 + 10;
+#X obj 412 454 pack 0 0;
+#X obj 465 387 * 200;
+#X floatatom 465 432 5 0 0 0 - - -;
+#X obj 465 410 + 10;
+#X obj 456 98 r nuclear;
+#X obj 33 456 pack 0 0;
+#X obj 86 389 * 200;
+#X floatatom 86 434 5 0 0 0 - - -;
+#X obj 86 412 + 10;
+#X obj 223 457 pack 0 0;
+#X obj 276 390 * 200;
+#X floatatom 276 435 5 0 0 0 - - -;
+#X obj 276 413 + 10;
+#X obj 84 122 / 127;
+#X obj 270 123 / 127;
+#X obj 456 121 / 127;
+#X obj 465 364 / 127;
+#X obj 276 367 / 127;
+#X obj 86 366 / 127;
+#X obj 30 31 r s1;
+#X floatatom 30 54 5 0 0 0 - - -;
+#X obj 30 100 change;
+#X obj 30 123 sel 1;
+#X floatatom 216 54 5 0 0 0 - - -;
+#X obj 216 100 change;
+#X obj 216 123 sel 1;
+#X floatatom 401 53 5 0 0 0 - - -;
+#X obj 401 99 change;
+#X obj 401 122 sel 1;
+#X obj 216 146 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 216 166 t b b;
+#X obj 401 144 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 401 164 t b b;
+#X obj 216 31 r s2;
+#X obj 401 30 r s3;
+#X floatatom 32 296 5 0 0 0 - - -;
+#X obj 32 342 change;
+#X obj 32 365 sel 1;
+#X obj 32 387 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 32 407 t b b;
+#X obj 32 273 r s4;
+#X floatatom 221 296 5 0 0 0 - - -;
+#X obj 221 342 change;
+#X obj 221 365 sel 1;
+#X obj 221 387 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 221 407 t b b;
+#X floatatom 412 294 5 0 0 0 - - -;
+#X obj 412 340 change;
+#X obj 412 363 sel 1;
+#X obj 412 385 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 412 405 t b b;
+#X obj 211 644 dac~;
+#X obj 232 571 hsl 32 15 0 1 0 0 empty empty vol -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 221 273 r s5;
+#X obj 412 271 r s6;
+#X obj 30 76 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 216 76 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 401 75 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 412 316 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 221 318 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 32 318 expr if($f1 < 5000 \, 1 \, 0);
+#X obj 211 616 *~;
+#X obj 243 616 inlet;
+#X obj 647 27 partial 1 1 0.56 0;
+#X obj 647 52 partial 0.67 0.9 0.56 1;
+#X obj 647 77 partial 1 0.65 0.92 0;
+#X obj 647 102 partial 1.8 0.55 0.92 1.7;
+#X obj 647 127 partial 2.67 0.325 1.19 0;
+#X obj 647 152 partial 1.67 0.35 1.7 0;
+#X obj 647 177 partial 1.46 0.25 2 0;
+#X obj 647 202 partial 1.33 0.2 2.74 0;
+#X obj 647 227 partial 1.33 0.15 3 0;
+#X obj 647 252 partial 1 0.1 3.76 0;
+#X obj 647 277 partial 1.33 0.075 4.07 0;
+#X msg 31 189 69;
+#X msg 217 190 72;
+#X msg 403 188 74;
+#X msg 33 433 76;
+#X msg 223 434 79;
+#X msg 412 431 81;
+#X obj 211 592 *~ 0.02;
+#X obj 623 668 writesf~ 2;
+#X msg 631 643 start;
+#X msg 682 643 stop;
+#X obj 622 551 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 622 594 del 3000;
+#X obj 622 570 t b b b b;
+#X msg 623 618 open samples/thermal_high.wav;
+#X text 626 525 TO RECORD;
+#X obj 86 343 r thermal;
+#X obj 276 344 r other;
+#X obj 465 341 r solar;
+#X connect 0 0 97 0;
+#X connect 1 0 3 0;
+#X connect 2 0 0 1;
+#X connect 3 0 0 0;
+#X connect 3 1 91 0;
+#X connect 4 0 30 0;
+#X connect 5 0 7 0;
+#X connect 6 0 2 1;
+#X connect 7 0 6 0;
+#X connect 8 0 0 1;
+#X connect 9 0 11 0;
+#X connect 10 0 8 1;
+#X connect 11 0 10 0;
+#X connect 12 0 31 0;
+#X connect 13 0 0 1;
+#X connect 14 0 16 0;
+#X connect 15 0 13 1;
+#X connect 16 0 15 0;
+#X connect 17 0 0 1;
+#X connect 18 0 20 0;
+#X connect 19 0 17 1;
+#X connect 20 0 19 0;
+#X connect 21 0 32 0;
+#X connect 22 0 0 1;
+#X connect 23 0 25 0;
+#X connect 24 0 22 1;
+#X connect 25 0 24 0;
+#X connect 26 0 0 1;
+#X connect 27 0 29 0;
+#X connect 28 0 26 1;
+#X connect 29 0 28 0;
+#X connect 30 0 5 0;
+#X connect 31 0 9 0;
+#X connect 32 0 14 0;
+#X connect 33 0 18 0;
+#X connect 34 0 27 0;
+#X connect 35 0 23 0;
+#X connect 36 0 37 0;
+#X connect 37 0 72 0;
+#X connect 38 0 39 0;
+#X connect 39 0 1 0;
+#X connect 40 0 73 0;
+#X connect 41 0 42 0;
+#X connect 42 0 46 0;
+#X connect 43 0 74 0;
+#X connect 44 0 45 0;
+#X connect 45 0 48 0;
+#X connect 46 0 47 0;
+#X connect 47 0 0 0;
+#X connect 47 1 92 0;
+#X connect 48 0 49 0;
+#X connect 49 0 0 0;
+#X connect 49 1 93 0;
+#X connect 50 0 40 0;
+#X connect 51 0 43 0;
+#X connect 52 0 77 0;
+#X connect 53 0 54 0;
+#X connect 54 0 55 0;
+#X connect 55 0 56 0;
+#X connect 56 0 0 0;
+#X connect 56 1 94 0;
+#X connect 57 0 52 0;
+#X connect 58 0 76 0;
+#X connect 59 0 60 0;
+#X connect 60 0 61 0;
+#X connect 61 0 62 0;
+#X connect 62 0 0 0;
+#X connect 62 1 95 0;
+#X connect 63 0 75 0;
+#X connect 64 0 65 0;
+#X connect 65 0 66 0;
+#X connect 66 0 67 0;
+#X connect 67 0 0 0;
+#X connect 67 1 96 0;
+#X connect 69 0 97 1;
+#X connect 70 0 58 0;
+#X connect 71 0 63 0;
+#X connect 72 0 38 0;
+#X connect 73 0 41 0;
+#X connect 74 0 44 0;
+#X connect 75 0 64 0;
+#X connect 76 0 59 0;
+#X connect 77 0 53 0;
+#X connect 78 0 68 0;
+#X connect 78 0 68 1;
+#X connect 79 0 78 1;
+#X connect 91 0 2 0;
+#X connect 92 0 8 0;
+#X connect 93 0 13 0;
+#X connect 94 0 22 0;
+#X connect 95 0 26 0;
+#X connect 96 0 17 0;
+#X connect 97 0 78 0;
+#X connect 99 0 98 0;
+#X connect 100 0 98 0;
+#X connect 101 0 103 0;
+#X connect 102 0 100 0;
+#X connect 103 0 102 0;
+#X connect 103 2 99 0;
+#X connect 103 3 104 0;
+#X connect 104 0 98 0;
+#X connect 106 0 35 0;
+#X connect 107 0 34 0;
+#X connect 108 0 33 0;
+#X restore 222 211 pd bells;
+#X obj 326 240 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#N canvas 50 42 596 399 preset1 0;
+#X obj 146 51 inlet;
+#X obj 146 74 t b b b b b b b b;
+#X obj 97 190 s emis;
+#X obj 169 142 s wind;
+#X obj 227 143 s hydro;
+#X obj 289 143 s nuclear;
+#X obj 169 193 s thermal;
+#X obj 246 193 s other;
+#X obj 308 193 s solar;
+#X obj 98 140 s cons;
+#X msg 246 170 68;
+#X msg 227 119 60;
+#X msg 169 170 127;
+#X msg 308 170 10;
+#X msg 289 120 10;
+#X msg 169 119 10;
+#X msg 97 167 25000;
+#X msg 98 117 70;
+#X connect 0 0 1 0;
+#X connect 1 0 17 0;
+#X connect 1 1 16 0;
+#X connect 1 2 15 0;
+#X connect 1 3 11 0;
+#X connect 1 4 14 0;
+#X connect 1 5 12 0;
+#X connect 1 6 10 0;
+#X connect 1 7 13 0;
+#X connect 10 0 7 0;
+#X connect 11 0 4 0;
+#X connect 12 0 6 0;
+#X connect 13 0 8 0;
+#X connect 14 0 5 0;
+#X connect 15 0 3 0;
+#X connect 16 0 2 0;
+#X connect 17 0 9 0;
+#X restore 227 327 pd preset1;
+#X obj 227 305 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 313 304 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 50 286 596 399 preset2 0;
+#X obj 146 51 inlet;
+#X obj 146 74 t b b b b b b b b;
+#X obj 97 190 s emis;
+#X obj 169 142 s wind;
+#X obj 227 143 s hydro;
+#X obj 289 143 s nuclear;
+#X obj 169 193 s thermal;
+#X obj 246 193 s other;
+#X obj 308 193 s solar;
+#X obj 98 140 s cons;
+#X msg 169 119 60;
+#X msg 227 118 60;
+#X msg 289 120 60;
+#X msg 169 170 10;
+#X msg 246 170 10;
+#X msg 308 170 10;
+#X msg 98 117 127;
+#X msg 97 167 15000;
+#X connect 0 0 1 0;
+#X connect 1 0 16 0;
+#X connect 1 1 17 0;
+#X connect 1 2 10 0;
+#X connect 1 3 11 0;
+#X connect 1 4 12 0;
+#X connect 1 5 13 0;
+#X connect 1 6 14 0;
+#X connect 1 7 15 0;
+#X connect 10 0 3 0;
+#X connect 11 0 4 0;
+#X connect 12 0 5 0;
+#X connect 13 0 6 0;
+#X connect 14 0 7 0;
+#X connect 15 0 8 0;
+#X connect 16 0 9 0;
+#X connect 17 0 2 0;
+#X restore 313 326 pd preset2;
+#X obj 398 304 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 0 22 596 399 preset3 0;
+#X obj 146 51 inlet;
+#X obj 146 74 t b b b b b b b b;
+#X obj 97 190 s emis;
+#X msg 289 120 127;
+#X obj 169 142 s wind;
+#X obj 227 143 s hydro;
+#X obj 289 143 s nuclear;
+#X obj 169 193 s thermal;
+#X obj 246 193 s other;
+#X obj 308 193 s solar;
+#X obj 98 140 s cons;
+#X msg 98 117 30;
+#X msg 169 119 60;
+#X msg 227 119 10;
+#X msg 169 170 10;
+#X msg 246 170 10;
+#X msg 308 170 60;
+#X msg 97 167 5000;
+#X connect 0 0 1 0;
+#X connect 1 0 11 0;
+#X connect 1 1 17 0;
+#X connect 1 2 12 0;
+#X connect 1 3 13 0;
+#X connect 1 4 3 0;
+#X connect 1 5 14 0;
+#X connect 1 6 15 0;
+#X connect 1 7 16 0;
+#X connect 3 0 6 0;
+#X connect 11 0 10 0;
+#X connect 12 0 4 0;
+#X connect 13 0 5 0;
+#X connect 14 0 7 0;
+#X connect 15 0 8 0;
+#X connect 16 0 9 0;
+#X connect 17 0 2 0;
+#X restore 398 326 pd preset3;
+#X connect 8 0 7 0;
+#X connect 11 0 12 0;
+#X connect 13 0 10 0;
+#X connect 14 0 19 0;
+#X connect 15 0 17 0;
+#X connect 15 0 14 0;
+#X connect 17 0 16 0;
+#X connect 20 0 18 0;
+#X connect 22 0 21 0;
+#X connect 23 0 24 0;
+#X connect 25 0 26 0;
