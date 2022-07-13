@@ -3,7 +3,7 @@
 This repository contains all the code for the paper ([bib](./investigating.bib)):
 
 > Vincenzo Madaghiele, Sandra Pauletto.
-> [**Investigating real-time feedback of energy consumption and emission data through sonic interaction design**]().
+> [**Investigating real-time feedback of energy consumption and emission data through sonic interaction design**](https://icad2022.icad.org/wp-content/uploads/2022/06/ICAD2022_20.pdf).
 > In _Proceedings of 27th International Conference on Auditory Display (ICAD)_, June 24-27 2022, Online.
 
 
